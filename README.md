@@ -1,5 +1,9 @@
 # Matrix Rain Effect
 
+## Demo
+
+https://matrix-rain-effect.netlify.app/
+
 ## Usage/Examples
 
 ```javascript
