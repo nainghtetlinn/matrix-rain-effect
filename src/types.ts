@@ -12,6 +12,7 @@ export type OptionsType = {
   wordCounts?: { min: number; max: number }
   rainSpeed?: { min: number; max: number }
   switchInterval?: { min: number; max: number }
+  fade?: number
 }
 
 export type AppOptionsType = {

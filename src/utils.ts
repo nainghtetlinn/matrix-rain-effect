@@ -18,7 +18,7 @@ export function createAppOptions(options: OptionsType): AppOptionsType {
       .rgb()
       .string(),
     bgFade: new Color(options.bgColor || defaultOptions.bgColor)
-      .alpha(0.2)
+      .alpha(options.fade || 0.2)
       .rgb()
       .string(),
     firstWordColor: new Color(
