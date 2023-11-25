@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  input[type="text"],
+  input[type="number"] {
+    @apply p-2 bg-black text-white rounded-lg border-2 border-transparent outline-none focus:border-red-600 appearance-none [-webkit-appearance:none] [-moz-appearance:textfield];
+  }
+  input[type="color"] {
+    @apply w-10 h-10 cursor-pointer border border-white rounded-lg overflow-hidden;
+  }
+  input[type="color"]::-webkit-color-swatch-wrapper,
+  input[type="color"]::-moz-color-swatch-wrapper {
+    padding: 0;
+  }
+  input[type="color"]::-webkit-color-swatch,
+  input[type="color"]::-moz-color-swatch {
+    border: none;
+  }
+}
+
+@layer components {
+  .label {
+    @apply cursor-pointer text-red-600 text-lg font-semibold inline-block mb-1;
+  }
+  .label-sm {
+    @apply cursor-pointer text-white text-sm inline-block mb-1;
+  }
+}

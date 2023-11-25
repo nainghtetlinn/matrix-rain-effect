@@ -8,7 +8,116 @@
     <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
-    <div id="canvas-container" class="h-screen overflow-hidden"></div>
+    <div id="canvas-container" class="absolute inset-0 overflow-hidden"></div>
+
+    <section class="relative flex justify-center items-center h-screen">
+      <form
+        id="form"
+        class="hidden bg-black/60 backdrop-blur-sm p-4 max-w-md border border-white rounded-lg space-y-6"
+      >
+        <h1 class="text-white text-3xl font-semibold">Matrix Rain Effect</h1>
+
+        <div>
+          <label for="textColor" class="label">Text Color</label>
+          <div class="flex items-center gap-2">
+            <input id="textColor" type="color" />
+            <input
+              id="textColorText"
+              type="text"
+              placeholder="Text color"
+              class="grow"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="bgColor" class="label">Background Color</label>
+          <div class="flex items-center gap-2">
+            <input id="bgColor" type="color" />
+            <input
+              id="bgColorText"
+              type="text"
+              placeholder="Background color"
+              class="grow"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="fontSize" class="label">Font Size</label>
+          <input
+            id="fontSize"
+            type="number"
+            min="10"
+            max="100"
+            placeholder="Font size"
+            class="w-full"
+          />
+        </div>
+
+        <div>
+          <label class="label cursor-default">Word Counts</label>
+          <div class="flex gap-2">
+            <div class="flex flex-col">
+              <label for="wcMin" class="label-sm">Min</label>
+              <input id="wcMin" type="text" placeholder="min" class="w-full" />
+            </div>
+
+            <div class="flex flex-col">
+              <label for="wcMax" class="label-sm">Max</label>
+              <input id="wcMax" type="text" placeholder="max" class="w-full" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="label cursor-default">Rain Speed</label>
+          <div class="flex gap-2">
+            <div class="flex flex-col">
+              <label for="rsMin" class="label-sm">Min</label>
+              <input id="rsMin" type="text" placeholder="min" class="w-full" />
+            </div>
+
+            <div class="flex flex-col">
+              <label for="rsMax" class="label-sm">Max</label>
+              <input id="rsMax" type="text" placeholder="max" class="w-full" />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="label cursor-default">Switch Interval</label>
+          <div class="flex gap-2">
+            <div class="flex flex-col">
+              <label for="siMin" class="label-sm">Min</label>
+              <input id="siMin" type="text" placeholder="min" class="w-full" />
+            </div>
+
+            <div class="flex flex-col">
+              <label for="siMax" class="label-sm">Max</label>
+              <input id="siMax" type="text" placeholder="max" class="w-full" />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center">
+          <button
+            id="close"
+            type="button"
+            class="p-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-lg font-semibold"
+          >
+            Close
+          </button>
+        </div>
+      </form>
+
+      <button
+        id="btn"
+        class="p-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-lg font-semibold"
+      >
+        Edit
+      </button>
+    </section>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
