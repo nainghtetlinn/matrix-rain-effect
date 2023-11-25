@@ -49,7 +49,7 @@
             id="fontSize"
             type="number"
             min="10"
-            max="100"
+            max="50"
             placeholder="Font size"
             class="w-full"
           />
@@ -60,12 +60,26 @@
           <div class="flex gap-2">
             <div class="flex flex-col">
               <label for="wcMin" class="label-sm">Min</label>
-              <input id="wcMin" type="text" placeholder="min" class="w-full" />
+              <input
+                id="wcMin"
+                type="text"
+                min="5"
+                max="10"
+                placeholder="min"
+                class="w-full"
+              />
             </div>
 
             <div class="flex flex-col">
               <label for="wcMax" class="label-sm">Max</label>
-              <input id="wcMax" type="text" placeholder="max" class="w-full" />
+              <input
+                id="wcMax"
+                type="text"
+                min="10"
+                max="20"
+                placeholder="max"
+                class="w-full"
+              />
             </div>
           </div>
         </div>
@@ -75,27 +89,57 @@
           <div class="flex gap-2">
             <div class="flex flex-col">
               <label for="rsMin" class="label-sm">Min</label>
-              <input id="rsMin" type="text" placeholder="min" class="w-full" />
+              <input
+                id="rsMin"
+                type="text"
+                min="1"
+                max="3"
+                placeholder="min"
+                class="w-full"
+              />
             </div>
 
             <div class="flex flex-col">
               <label for="rsMax" class="label-sm">Max</label>
-              <input id="rsMax" type="text" placeholder="max" class="w-full" />
+              <input
+                id="rsMax"
+                type="text"
+                min="3"
+                max="5"
+                placeholder="max"
+                class="w-full"
+              />
             </div>
           </div>
         </div>
 
         <div>
-          <label class="label cursor-default">Switch Interval</label>
+          <label class="label cursor-default"
+            >Switch Interval (millisecond)</label
+          >
           <div class="flex gap-2">
             <div class="flex flex-col">
               <label for="siMin" class="label-sm">Min</label>
-              <input id="siMin" type="text" placeholder="min" class="w-full" />
+              <input
+                id="siMin"
+                type="text"
+                min="500"
+                max="1000"
+                placeholder="min"
+                class="w-full"
+              />
             </div>
 
             <div class="flex flex-col">
               <label for="siMax" class="label-sm">Max</label>
-              <input id="siMax" type="text" placeholder="max" class="w-full" />
+              <input
+                id="siMax"
+                type="text"
+                min="1000"
+                max="2000"
+                placeholder="max"
+                class="w-full"
+              />
             </div>
           </div>
         </div>
