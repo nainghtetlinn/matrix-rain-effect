@@ -1,13 +1,13 @@
 import Color from "color"
+import { OtherPropsType, OptionsType, AppOptionsType } from "./types"
 
-import {
-  OtherProps,
-  OptionsType,
-  AppOptionsType,
-  defaultOptions,
-} from "./types"
+const defaultOptions = {
+  fontSize: 30,
+  color: "rgba(255, 255, 255, 1)",
+  bgColor: "rgba(0, 0, 0, 1)",
+}
 
-export function animateMatrixEffect(id: string, ...otherProps: OtherProps) {
+export function animateMatrixEffect(id: string, ...rest: OtherPropsType) {
   const parentElement = document.getElementById(id)
   if (!parentElement) throw new Error(`Cannot find element with id: "${id}"`)
 
@@ -19,14 +19,14 @@ export function animateMatrixEffect(id: string, ...otherProps: OtherProps) {
 
   // getting options base on user parameter
   let options: OptionsType = {}
-  if (otherProps.length > 0) {
-    if (typeof otherProps[0] === "function") {
-      otherProps[0]()
+  if (rest.length > 0) {
+    if (typeof rest[0] === "function") {
+      rest[0]()
     } else {
-      options = { ...otherProps[0] }
+      options = { ...rest[0] }
     }
 
-    otherProps[1] && typeof otherProps[1] === "function" && otherProps[1]()
+    rest[1] && typeof rest[1] === "function" && rest[1]()
   }
 
   const appOptions: AppOptionsType = {
