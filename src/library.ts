@@ -5,6 +5,9 @@ const defaultOptions = {
   fontSize: 30,
   color: "rgba(255, 255, 255, 1)",
   bgColor: "rgba(0, 0, 0, 1)",
+  wordCounts: { min: 5, max: 20 },
+  rainSpeed: { min: 1, max: 3 },
+  switchInterval: { min: 500, max: 1500 },
 }
 
 export function animateMatrixEffect(id: string, ...rest: OtherPropsType) {
@@ -44,6 +47,9 @@ export function animateMatrixEffect(id: string, ...rest: OtherPropsType) {
     )
       .rgb()
       .string(),
+    wordCounts: options.wordCounts || defaultOptions.wordCounts,
+    rainSpeed: options.rainSpeed || defaultOptions.rainSpeed,
+    switchInterval: options.switchInterval || defaultOptions.switchInterval,
   }
 
   let effect = new MatrixEffect(canvas.width, canvas.height, appOptions)

@@ -9,6 +9,9 @@ export type OptionsType = {
   color?: string
   firstWordColor?: string
   bgColor?: string
+  wordCounts?: { min: number; max: number }
+  rainSpeed?: { min: number; max: number }
+  switchInterval?: { min: number; max: number }
 }
 
 export type AppOptionsType = {
@@ -17,4 +20,7 @@ export type AppOptionsType = {
   firstWordColor: string
   bgColor: string
   bgFade: string
+  wordCounts: { min: number; max: number }
+  rainSpeed: { min: number; max: number }
+  switchInterval: { min: number; max: number }
 }
