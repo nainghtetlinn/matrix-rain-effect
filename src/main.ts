@@ -6,9 +6,7 @@ window.addEventListener("load", function () {
     {
       fontSize: 30,
       color: "rgba(255,255,255,1)",
-      firstWordColor: "rgba(255,0,0,1)",
-      bgColor: "rgba(0,0,0,1)",
-      bgFade: "rgba(0,0,0,0.3)",
+      firstWordColor: "red",
     },
     () => console.log("animation active")
   )

@@ -1,4 +1,11 @@
-import { OtherProps, DefaultOptionsType } from "./types"
+import Color from "color"
+
+import {
+  OtherProps,
+  OptionsType,
+  AppOptionsType,
+  defaultOptions,
+} from "./types"
 
 export function animateMatrixEffect(id: string, ...otherProps: OtherProps) {
   const parentElement = document.getElementById(id)
@@ -10,23 +17,36 @@ export function animateMatrixEffect(id: string, ...otherProps: OtherProps) {
   parentElement.innerHTML = ""
   parentElement.appendChild(canvas)
 
-  let options: DefaultOptionsType = {
-    fontSize: 20,
-    bgColor: "rgba(0, 0, 0, 1)",
-    bgFade: "rgba(0, 0, 0, 0.3)",
-    color: "rgba(255, 255, 255, 1)",
-  }
-
+  // getting options base on user parameter
+  let options: OptionsType = {}
   if (otherProps.length > 0) {
-    typeof otherProps[0] === "function"
-      ? otherProps[0]()
-      : (options = { ...options, ...otherProps[0] })
+    if (typeof otherProps[0] === "function") {
+      otherProps[0]()
+    } else {
+      options = { ...otherProps[0] }
+    }
 
     otherProps[1] && typeof otherProps[1] === "function" && otherProps[1]()
   }
 
-  let effect = new MatrixEffect(canvas.width, canvas.height, options)
-  let frameCount = 0
+  const appOptions: AppOptionsType = {
+    fontSize: options.fontSize || defaultOptions.fontSize,
+    color: new Color(options.color || defaultOptions.color).rgb().string(),
+    bgColor: new Color(options.bgColor || defaultOptions.bgColor)
+      .rgb()
+      .string(),
+    bgFade: new Color(options.bgColor || defaultOptions.bgColor)
+      .alpha(0.2)
+      .rgb()
+      .string(),
+    firstWordColor: new Color(
+      options.firstWordColor || options.color || defaultOptions.color
+    )
+      .rgb()
+      .string(),
+  }
+
+  let effect = new MatrixEffect(canvas.width, canvas.height, appOptions)
 
   new ResizeObserver(e => {
     const parent = e[0].target
@@ -34,25 +54,25 @@ export function animateMatrixEffect(id: string, ...otherProps: OtherProps) {
     canvas.height = parent.clientHeight
 
     // setting background
-    context.fillStyle = options.bgColor
+    context.fillStyle = appOptions.bgColor
     context.fillRect(0, 0, canvas.width, canvas.height)
     // setting color, font and text align
-    context.fillStyle = options.color
-    context.font = options.fontSize + "px monospace"
+    context.fillStyle = appOptions.color
+    context.font = appOptions.fontSize + "px monospace"
     context.textAlign = "center"
 
-    effect = new MatrixEffect(canvas.width, canvas.height, options)
+    effect = new MatrixEffect(canvas.width, canvas.height, appOptions)
   }).observe(parentElement)
 
-  function animate() {
-    context.fillStyle = options.bgFade
+  function animate(timeStamp: number) {
+    context.fillStyle = appOptions.bgFade
     context.fillRect(0, 0, canvas.width, canvas.height)
 
-    effect.render(context, frameCount)
-    frameCount++
+    effect.render(context, timeStamp)
+
     window.requestAnimationFrame(animate)
   }
-  animate()
+  animate(0)
 }
 
 class MatrixEffect {
@@ -61,7 +81,7 @@ class MatrixEffect {
   private options
   private streams: Stream[]
 
-  constructor(width: number, height: number, options: DefaultOptionsType) {
+  constructor(width: number, height: number, options: AppOptionsType) {
     this.width = width
     this.height = height
     this.options = options
@@ -72,24 +92,24 @@ class MatrixEffect {
   private generateStreams() {
     let x = 0
     for (let i = 0; i < this.width / this.options.fontSize; i++) {
-      this.streams[i] = new Stream(x, this.options.fontSize)
+      this.streams[i] = new Stream(x, this.options)
       x += this.options.fontSize
     }
   }
 
-  render(ctx: CanvasRenderingContext2D, frameCount: number) {
+  render(ctx: CanvasRenderingContext2D, timeStamp: number) {
     this.streams.forEach(stream => {
       // looping each columns
       stream.symbols.forEach((symbol, i) => {
         // looping each rows
         if (i == 0 && symbol.first) {
-          ctx.fillStyle = this.options.firstWordColor || this.options.color
+          ctx.fillStyle = this.options.firstWordColor
         } else {
           ctx.fillStyle = this.options.color
         }
         ctx.fillText(symbol.value, symbol.x, symbol.y)
         symbol.rain(this.height, stream.speed)
-        symbol.setValue(frameCount)
+        symbol.setValue(timeStamp)
       })
     })
   }
@@ -97,15 +117,15 @@ class MatrixEffect {
 
 class Stream {
   private x
-  private fontSize
+  private options
   symbols: Symbol[]
   speed
 
-  constructor(x: number, fontSize: number) {
+  constructor(x: number, options: AppOptionsType) {
     this.x = x
-    this.fontSize = fontSize
+    this.options = options
     this.symbols = []
-    this.speed = random(1, 5)
+    this.speed = random(1, 3)
     this.generateSymbols()
   }
 
@@ -115,37 +135,44 @@ class Stream {
 
     for (let i = 0; i < totalSymbols; i++) {
       this.symbols[i] = new Symbol(this.x, y)
-      y -= this.fontSize
+      y -= this.options.fontSize
     }
   }
 }
 
 class Symbol {
-  value = ""
   x
   y
   first
+  value = ""
+  private lastTime
   private switchInterval
 
   constructor(x: number, y: number) {
     this.x = x
     this.y = y
-    this.setValue(0)
     this.first = random(0, 1) === 1
-    this.switchInterval = random(30, 50)
+    this.setValue(0)
+    this.lastTime = 0
+    this.switchInterval = random(500, 1500) // in milliseconds
   }
 
   rain(height: number, speed: number) {
     if (this.y >= height) {
       this.y = 0
+      this.first = random(0, 1) === 1
     } else {
       this.y += speed
     }
   }
 
-  setValue(frameCount: number) {
-    if (frameCount % this.switchInterval === 0 || frameCount === 0) {
+  setValue(timeInMillisecond: number) {
+    if (
+      timeInMillisecond - this.lastTime >= this.switchInterval ||
+      timeInMillisecond === 0
+    ) {
       this.value = chars.charAt(Math.floor(Math.random() * chars.length))
+      this.lastTime = timeInMillisecond
     }
   }
 }

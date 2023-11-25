@@ -4,18 +4,23 @@ export type OtherProps =
   | [() => void]
   | []
 
-interface OptionsType {
+export type OptionsType = {
   fontSize?: number
   color?: string
   firstWordColor?: string
   bgColor?: string
-  bgFade?: string
 }
 
-export interface DefaultOptionsType {
+export type AppOptionsType = {
   fontSize: number
   color: string
   bgColor: string
   bgFade: string
-  firstWordColor?: string
+  firstWordColor: string
+}
+
+export const defaultOptions = {
+  fontSize: 30,
+  color: "rgba(255, 255, 255, 1)",
+  bgColor: "rgba(0, 0, 0, 1)",
 }
