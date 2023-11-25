@@ -104,16 +104,19 @@ class Stream {
     this.x = x
     this.options = options
     this.symbols = []
-    this.speed = random(1, 3)
+    this.speed = random(this.options.rainSpeed.min, this.options.rainSpeed.max)
     this.generateSymbols()
   }
 
   private generateSymbols() {
     let y = random(-500, 0)
-    let totalSymbols = random(5, 30)
+    let totalSymbols = random(
+      this.options.wordCounts.min,
+      this.options.wordCounts.max
+    )
 
     for (let i = 0; i < totalSymbols; i++) {
-      this.symbols[i] = new Symbol(this.x, y)
+      this.symbols[i] = new Symbol(this.x, y, this.options)
       y -= this.options.fontSize
     }
   }
@@ -122,18 +125,23 @@ class Stream {
 class Symbol {
   x
   y
+  options
   first
   value = ""
   private lastTime
   private switchInterval
 
-  constructor(x: number, y: number) {
+  constructor(x: number, y: number, options: AppOptionsType) {
     this.x = x
     this.y = y
+    this.options = options
     this.first = random(0, 1) === 1
     this.setValue(0)
     this.lastTime = 0
-    this.switchInterval = random(500, 1500) // in milliseconds
+    this.switchInterval = random(
+      this.options.switchInterval.min,
+      this.options.switchInterval.max
+    ) // in milliseconds
   }
 
   rain(height: number, speed: number) {
